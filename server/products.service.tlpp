@@ -1,0 +1,140 @@
+#include "tlpp-core.th"
+
+namespace sample.products
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsService
+Manipula os dados de produtos
+@type class
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+/*/
+//------------------------------------------------------------------------------
+class ProductsService
+    public data jResponse as json
+
+    public method new() as object
+    public method get() as json
+    public method post() as json
+    public method put() as json
+    public method delete() as json
+endClass
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsService::new
+Obtém uma nova instância da classe ProductsService
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@return object, nova instancia da classe
+/*/
+//------------------------------------------------------------------------------
+method new() as object class ProductsService
+    ::jResponse := JsonObject():New()
+return Self
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsService::get
+Obter produtos
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@param nPage, numeric, numero da página
+@param nPageSize, numeric, quantidade de registro por página
+@param cFilter, character, filtro de produtos
+@param cFields, character, campos retornados
+@param cSort, character, ordenação da lista de produtos
+@param cProductId, character, identificador do produto
+@return json, dados do produto
+/*/
+//------------------------------------------------------------------------------
+method get(nPage as numeric, nPageSize as numeric, cFilter as character, cFields as character, cSort as character, cProductId as character) as json class ProductsService
+    local oData as object
+
+    oData := ProductsData():new("GET")
+    oData:get(nPage, nPageSize, cFilter, cFields, cSort, cProductId)
+
+    if oData:lOk
+        ::jResponse := oData:gtJsonObjResponse()
+        if !Empty(cProductId) .And. Len(::jResponse['items']) > 0
+            ::jResponse := ::jResponse['items'][1]
+        endIf
+    else
+        ::jResponse := SetRestFault(oData:GetCode(), oData:GetMessage())
+    endIf
+return ::jResponse
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsService::post
+incluir um produto
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@param nOperation, numeric, param_description
+@param jBody, json, param_description
+@return json, resposta do cadastro de produto
+/*/
+//------------------------------------------------------------------------------
+method post(nOperation as numeric, jBody as json) as json class ProductsService
+    local oData as object
+
+    oData := ProductsData():new("POST")
+    ::jResponse := oData:handleProducts(nOperation, jBody)
+
+    if !oData:lOk
+        ::jResponse := SetRestFault(oData:GetCode(), oData:GetMessage())
+    endIf
+return ::jResponse
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsService::put
+alterar produto
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@param nOperation, numeric, número da operação
+@param jBody, json, dados do produto
+@param cProductId, character, identificador do produto
+@return json, resposta do cadastro de produto
+/*/
+//------------------------------------------------------------------------------
+method put(nOperation as numeric, jBody as json, cProductId as character) as json class ProductsService
+    local oData as object
+
+    oData := ProductsData():new("PUT")
+    ::jResponse = oData:handleProducts(nOperation, jBody, cProductId)
+
+    if !oData:lOk
+        ::jResponse := SetRestFault(oData:GetCode(), oData:GetMessage())
+    endIf
+return ::jResponse
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsService::delete
+Excluir um produto
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@param nOperation, numeric, número da operação
+@param cProductId, character, identificador do produto
+@return json, resposta do cadastro de produto
+/*/
+//------------------------------------------------------------------------------
+method delete(nOperation as numeric, cProductId as character) as json class ProductsService
+    local oData as object
+
+    oData := ProductsData():new("DELETE")
+    oData:handleProducts(nOperation,, cProductId)
+
+    if oData:lOk
+        ::jResponse := oData:GetJsonObject()
+    else
+        ::jResponse := SetRestFault(oData:GetCode(), oData:GetMessage())
+    endIf
+return ::jResponse

@@ -1,0 +1,201 @@
+#include 'tlpp-core.th'
+
+namespace sample.products
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsController
+Serviço para CRUD de produtos - Angular + Protheus.
+@type class
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+/*/
+//------------------------------------------------------------------------------
+class ProductsController
+	data jResponse  as json
+	data nPage      as numeric
+	data nPageSize  as numeric
+	data aFilters	as array
+	data oService   as object
+
+	public method new() as object
+	static method getQueryParam()
+
+	@get("/api/sample/v1/products")
+	public method get() as logical
+
+	@get("/api/sample/v1/products/:id")
+	public method getById() as logical
+
+	@post("/api/sample/v1/products/")
+	public method post() as logical
+
+	@put("/api/sample/v1/products/:id")
+	public method put() as logical
+
+	@delete("/api/sample/v1/products/:id")
+	public method delete() as logical
+endClass
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsController::new
+Inicializa a classe.
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@return object, nosta instancia da classe ProductsController
+/*/
+//------------------------------------------------------------------------------
+method new() as object class ProductsController
+	::oService  := ProductsService():new()
+	::jResponse := Jsonobject():new()
+return self
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsController::get
+Obter uma lista com todos os produtos.
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@return logical, se verdadeiro método foi executado com sucesso
+/*/
+//------------------------------------------------------------------------------
+method get() as logical class ProductsController
+	local cFields as character
+	local cSort as character
+	local cSearch as character
+	local nPage as numeric
+	local nPageSize as numeric
+
+	cFields := getQueryParam('fields')
+	cSort := getQueryParam('sort')
+	cSearch := getQueryParam('search')
+	nPage := getQueryParam('page')
+	nPageSize := getQueryParam('pageSize')
+
+	oRest:setKeyHeaderResponse('Content-Type','application/json; charset=utf-8')
+	oRest:setResponse(::oService:get(Val(nPage), Val(nPageSize), cSearch, cFields, cSort))
+return .T.
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsController::getById
+Obter um produto utilizando um identificador unico como parâmetro.
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@return logical, se verdadeiro método foi executado com sucesso
+/*/
+//------------------------------------------------------------------------------
+method getById() as logical class ProductsController
+	local cId as character
+	local cFields as character
+
+	cFields := getQueryParam('fields')
+
+	oRest:setKeyHeaderResponse('Content-Type','application/json; charset=utf-8')
+	cId := oRest:getPathParamsRequest()['id']
+	oRest:setResponse(::oService:get(1, 10, /* cSearch */, cFields, /* cSort */, cId))
+return .T.
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsController::post
+Incluir um novo produto
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@return logical, se verdadeiro método foi executado com sucesso
+/*/
+//------------------------------------------------------------------------------
+method post() as logical class ProductsController
+	local cBody as character
+	local jBody as Json
+
+	oRest:setKeyHeaderResponse('Content-Type','application/json; charset=utf-8')
+
+	cBody := oRest:getBodyRequest()
+	jBody := Jsonobject():New()
+
+	if jBody:FromJson(cBody) == Nil
+		oRest:setResponse(::oService:post(3, jBody))
+	else
+		setRestFault(400, "Json inválido")
+	endIf
+return .t.
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsController::put
+Alterar um produto
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@return logical, se verdadeiro método foi executado com sucesso
+/*/
+//------------------------------------------------------------------------------
+method put() as logical class ProductsController
+	local cBody as character
+	local jBody as Json
+	local cId as character
+
+	oRest:setKeyHeaderResponse('Content-Type','application/json; charset=utf-8')
+
+	cId := oRest:getPathParamsRequest()['id']
+	cBody := oRest:getBodyRequest()
+	jBody := Jsonobject():New()
+
+	if jBody:FromJson(cBody) == Nil
+		oRest:setResponse(::oService:put(4, jBody, cId))
+	else
+		setRestFault(400, "Json inválido")
+	endIf
+return .t.
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} ProductsController::delete
+excluir um produto.
+@type method
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@return logical, se verdadeiro método foi executado com sucesso
+/*/
+//------------------------------------------------------------------------------
+method delete() as logical class ProductsController
+	local cId as character
+
+	oRest:setKeyHeaderResponse('Content-Type','application/json; charset=utf-8')
+
+	cId := oRest:getPathParamsRequest()['id']
+	oRest:setStatusCode(204)
+	oRest:setResponse(::oService:delete(5, cId))
+return .t.
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} getQueryParam
+Obtem o valor de um parâmetro (Query Params) adicionado na requisição.
+@type function
+@version 1.0
+@author TOTVS
+@since 07/04/2025
+@param cName, character, nome do parâmetro
+@return character, valor do parâmetro
+/*/
+//------------------------------------------------------------------------------
+function getQueryParam(cName as character) as character
+	local cParamText as character
+
+	cParamText := oRest:getQueryRequest():GetJsonText(cName)
+	if cParamText == 'null'
+		if cName == 'page'
+			cParamText := '1'
+		elseIf cName == 'pageSize'
+			cParamText := '10'
+		else
+			cParamText := ''
+		endIf
+	endIf
+return cParamText
