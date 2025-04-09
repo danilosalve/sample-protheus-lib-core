@@ -1,5 +1,5 @@
 {
     "name": "Exemplo de aplicativo com ProtheusLibCore",
     "productLine": "Protheus",
-    "api_baseUrl": "http://localhost:8282/rest"
+    "api_baseUrl": "/"
 }
