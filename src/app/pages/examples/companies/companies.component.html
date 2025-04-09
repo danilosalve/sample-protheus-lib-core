@@ -8,17 +8,24 @@
         p-label="Empresa (PO Combo)"
         [p-options]="companiesOptions()"
       />
+
       <po-select
         class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
         p-label="Empresa (PO Select)"
         [p-options]="companiesOptions()"
       />
+
       <po-multiselect
         class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
         p-label="Empresa (PO Multiselect)"
         [p-options]="companiesOptions()"
-      />q
-      <po-table [p-items]="items().items" [p-show-more-disabled]="!items().hasNext" />
+      />
+
+      <po-table
+        class="po-xl-12 po-lg-12 po-md-12 po-sm-12"
+        [p-items]="items().items"
+        [p-show-more-disabled]="!items().hasNext"
+      />
     </div>
   } @else {
     <p>Não há dados</p>

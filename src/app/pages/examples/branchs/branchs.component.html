@@ -3,24 +3,25 @@
 } @else {
   @if (items().items?.length) {
     <div class="po-row">
-      <po-combo
-        class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
-        p-label="Filial (PO Combo)"
-        [p-options]="branchesOptions()"
-      ></po-combo>
+      <po-combo class="po-xl-6 po-lg-6 po-md-6 po-sm-12" p-label="Filial (PO Combo)" [p-options]="branchesOptions()" />
 
       <po-select
         class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
         p-label="Filial (PO Select)"
         [p-options]="branchesOptions()"
-      ></po-select>
+      />
 
       <po-multiselect
         class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
         p-label="Filial (PO Multiselect)"
         [p-options]="branchesOptions()"
-      ></po-multiselect>
-      <po-table [p-items]="items().items!" [p-show-more-disabled]="!items().hasNext"> </po-table>
+      />
+
+      <po-table
+        class="po-xl-12 po-lg-12 po-md-12 po-sm-12"
+        [p-items]="items().items!"
+        [p-show-more-disabled]="!items().hasNext"
+      />
     </div>
   } @else {
     <p>Não há dados</p>
