@@ -1,1 +1,7 @@
-<p>products-form works!</p>
+<po-page-default p-title="Cadastro de produtos" [p-actions]="actions" [p-breadcrumb]="breadcrumb">
+  @if (isLoading) {
+    <po-loading-overlay />
+  } @else {
+    <po-dynamic-form [p-fields]="fields" [p-value]="value" (p-form)="setForm($event)" />
+  }
+</po-page-default>

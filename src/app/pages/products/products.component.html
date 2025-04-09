@@ -1,1 +1,15 @@
-<p>products works!</p>
+<po-page-dynamic-table
+  p-title="Produtos"
+  [p-service-api]="apiUrl"
+  [p-fields]="fields"
+  [p-actions]="actions"
+  [p-table-custom-actions]="tableCustomActions"
+>
+</po-page-dynamic-table>
+
+<po-modal #balanceModal p-title="Saldo" style="position: relative">
+  <po-loading-overlay [hidden]="!isLoadingBalance"></po-loading-overlay>
+  @if (isLoadingBalance) {
+    <span>{{ balance }}</span>
+  }
+</po-modal>

@@ -1,4 +1,5 @@
 #include 'tlpp-core.th'
+#include 'fw-tlpp-rest.th'
 
 namespace sample.products
 

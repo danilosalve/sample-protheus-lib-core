@@ -1,0 +1,34 @@
+@if (isLoading) {
+  <po-loading-overlay />
+} @else {
+  <div class="po-row">
+    <!-- Acessos por rotina -->
+    <po-container class="po-mb-2 po-sm-12 po-md-6 po-lg-6 po-xl-6" p-title="Validar Acessos por rotina">
+      <po-input
+        class="po-xl-3 po-lg-4 po-md-3 po-sm-6"
+        p-label="Rotina"
+        [(ngModel)]="routine"
+        p-clean
+        [p-no-autocomplete]="true"
+      />
+      <po-number
+        class="po-xl-1 po-lg-2 po-md-2 po-sm-2"
+        p-label="Ação"
+        [(ngModel)]="action"
+        [p-no-autocomplete]="true"
+      />
+      <po-button class="po-mt-4 po-ml-1" p-label="Validar Acesso" p-kind="primary" (p-click)="getAccessRoutine()" />
+    </po-container>
+    <!-- Acessos por alias -->
+    <po-container class="po-mb-2 po-sm-12 po-md-6 po-lg-6 po-xl-6" p-title="Validar Acessos por alias">
+      <po-input
+        class="po-xl-3 po-lg-3 po-md-3 po-sm-6"
+        p-label="Alias"
+        [(ngModel)]="alias"
+        p-clean
+        [p-no-autocomplete]="true"
+      />
+      <po-button class="po-mt-4 po-ml-1" p-label="Validar Acesso" p-kind="primary" (p-click)="getAccessAlias()" />
+    </po-container>
+  </div>
+}

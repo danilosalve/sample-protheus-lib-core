@@ -1,0 +1,17 @@
+<po-page-default p-title="Exemplos ProtheusLibCore" [p-breadcrumb]="breadCrumb">
+  <po-accordion>
+    <!-- <po-accordion-item p-label="Serviço de empresas" (p-expand)="getCompanies()" style="position: relative;"> !-->
+    <po-accordion-item p-label="Serviço de empresas" (p-expand)="onExpandCompanies()" style="position: relative;">
+      <app-companies [isLoading]="isLoading" [items]="companies" />
+    </po-accordion-item>
+    <po-accordion-item p-label="Serviço de filiais" (p-expand)="onExpandBranchs()" style="position: relative;">
+      <app-branchs [isLoading]="isLoading" [items]="branchs" />
+    </po-accordion-item>
+    <po-accordion-item p-label="Serviço de acessos do usuário" style="position: relative;">
+      <app-user-accesses />
+    </po-accordion-item>
+    <po-accordion-item p-label="Serviço de informações da sessão" style="position: relative;">
+      <app-session-info />
+    </po-accordion-item>
+  </po-accordion>
+</po-page-default>
