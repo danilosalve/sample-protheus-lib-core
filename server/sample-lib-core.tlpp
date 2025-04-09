@@ -1,36 +1,40 @@
 #include "protheus.ch"
 
+namespace sample.libcore
+
 //------------------------------------------------------------------------------
-/*/{Protheus.doc} sampleapp
-Executa o App da demonstração do Universo.
+/*/{Protheus.doc} sampleLibCore
+Executa o aplicativo que utiliza o ProtheusLibCore
 @type function
 @version 1.0
 @author TOTVS
-@since 07/04/2025
+@since 09/04/2025
+@obs: Para adicionar no menu do Protheus informe o nome do programa adicionado como 
+prefixo o namespace: Exemplo - sample.libcore.sampleLibCore
 /*/
 //------------------------------------------------------------------------------
-user function sampleapp()
-	FwCallApp("sample-protheus-lib-core")
+function sampleLibCore() 
+    FwCallApp("sample-protheus-lib-core")
 return
 
 //------------------------------------------------------------------------------
-/*/{Protheus.doc} JsToAdvpl
+/*/{Protheus.doc} jsToAdvpl
 Envia os comandos para o frontend de acordo com o tipo da chamada enviada pelo mesmo
 @type function
 @version 1.0
 @author TOTVS
-@since 07/04/2025
+@since 09/04/2025
 @param oWebChannel, object, objeto com o socket aberto para comunicação
-@param cType, character, tipo/identificador para a chamadac
+@param cType, character, tipo/identificador para a chamada
 @param cContent, character, conteúdo da chamada
 /*/
 //------------------------------------------------------------------------------
-static function JsToAdvpl(oWebChannel as object,cType as character,cContent as character)
-    if cType == 'checkBalance'
-        oWebChannel:AdvPLToJS('checkBalance', cValToChar(MostrarSaldo(cContent)))
+function jsToAdvpl( oWebChannel as object, cType as character, cContent as character )
+	if cType == 'checkBalance'
+		oWebChannel:AdvPLToJS('checkBalance', cValToChar(mostrarSaldo(cContent)))
 	elseIf cType == 'getParam'
 		oWebChannel:AdvPLToJS('setParam', SuperGetMv(cContent))
-    endIf
+	endIf
 return
 
 //------------------------------------------------------------------------------
@@ -39,21 +43,26 @@ Realiza a chamada do cálculo de saldo para determinado produto.
 @type function
 @version 1.0
 @author TOTVS
-@since 07/04/2025
+@since 09/04/2025
 @param cProduto, character, código produto
 @return numeric, Saldo do produto
 /*/
 //------------------------------------------------------------------------------
-static function MostrarSaldo(cProduto) as numeric
-	local nSaldo := 0
-	local aArea := GetArea()
-	local aAreaSB2 := SB2->(GetArea())
+function mostrarSaldo(cProduto as character) as numeric
+	local aArea := FwGetArea()
+	local aAreaSB2 := SB2->(FwGetArea())
+	local nSaldo as numeric
+
+	nSaldo := 0
 
 	SB2->(dbSetOrder(1))
 	if SB2->(dbSeek(xFilial("SB2") + cProduto))
 		nSaldo := SaldoSB2()
 	endIf
 
-	RestArea(aAreaSB2)
-	RestArea(aArea)
+	FwRestArea(aAreaSB2)
+	FwRestArea(aArea)
+
+	aSize(aArea, 0)
+	aSize(aAreaSB2, 0)
 return nSaldo
