@@ -29,8 +29,7 @@ export class SessionInfoComponent implements OnInit {
       const company = this.proSessionInfo.getCompany();
       const database = this.proSessionInfo.getDataBase();
       const module = this.proSessionInfo.getModule();
-      const user = this.proSessionInfo.getUser();
-      return { appName, branch, company, database, module, user };
+      return { appName, branch, company, database, module };
     } else {
       return this.info;
     }

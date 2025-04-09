@@ -5,14 +5,13 @@
       <po-info p-label="Empresa" [p-value]="info.company.CorporateName" />
       <po-info p-label="Filial" [p-value]="info.branch.Description" />
       <po-info p-label="Database" [p-value]="info.database" />
-      <po-info p-label="Usuário" [p-value]="info.user.username" />
       <po-info p-label="Módulo" [p-value]="info.module" />
     } @else {
       <po-loading-overlay />
     }
   } @else {
-    <p>
-      Não é possiível consultar os dados da sessão pois o aplicativo não está sendo executado pelo Protheus.. Para
+    <p class="po-font-text">
+      Não é possiível consultar os dados da sessão pois o aplicativo não está sendo executado pelo Protheus. Para
       prosseguir, abra o aplicativo pelo Protheus.
     </p>
   }

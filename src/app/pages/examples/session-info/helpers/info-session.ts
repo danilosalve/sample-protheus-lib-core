@@ -1,4 +1,4 @@
-import { ProBranch, ProCompany, ProUser } from '@totvs/protheus-lib-core';
+import { ProBranch, ProCompany } from '@totvs/protheus-lib-core';
 
 export class InfoSession {
   appName: string;
@@ -6,7 +6,6 @@ export class InfoSession {
   company: ProCompany;
   database: string;
   module: string;
-  user: ProUser;
 
   constructor() {
     this.appName = '';
@@ -14,6 +13,5 @@ export class InfoSession {
     this.company = {};
     this.database = '';
     this.module = '';
-    this.user = { username: 'Não Informado', password: '******' };
   }
 }
