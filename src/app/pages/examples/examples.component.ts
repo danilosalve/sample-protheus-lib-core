@@ -13,13 +13,13 @@ import {
   ProBranchList,
   ProBranchService,
   ProCompanyList,
-  ProCompanyService,
-  ProUserAccessService,
+  ProCompanyService
 } from '@totvs/protheus-lib-core';
 
 import { UserAccessesComponent } from './user-accesses/user-accesses.component';
 import { BranchsComponent } from './branchs/branchs.component';
 import { CompaniesComponent } from './companies/companies.component';
+import { GenericAdapterComponent } from './generic-adapter/generic-adapter.component';
 
 @Component({
   selector: 'app-examples',
@@ -31,7 +31,8 @@ import { CompaniesComponent } from './companies/companies.component';
     CompaniesComponent,
     BranchsComponent,
     UserAccessesComponent,
-    SessionInfoComponent
+    SessionInfoComponent,
+    GenericAdapterComponent
   ],
   templateUrl: './examples.component.html',
   styleUrl: './examples.component.css',
@@ -51,7 +52,6 @@ export class ExamplesComponent {
   private readonly proBranchService = inject(ProBranchService);
   private readonly poNotificationService = inject(PoNotificationService);
   private readonly proCompanyService = inject(ProCompanyService);
-  private readonly proUserAccessService = inject(ProUserAccessService);
 
   onExpandBranchs(): void {
     this.isLoading = true;
