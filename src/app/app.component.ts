@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
@@ -28,14 +28,13 @@ const USER_NOT_FOUND: ProUserInfo = {
 @Component({
   selector: 'app-root',
   imports: [
-    CommonModule,
     RouterOutlet,
     PoToolbarModule,
     PoMenuModule,
     PoModalModule,
     PoInfoModule,
-    ProtheusLibCoreModule,
-  ],
+    ProtheusLibCoreModule
+],
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
