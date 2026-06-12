@@ -6,7 +6,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (!token) {
     const authReq = req.clone({
       setHeaders: {
-        'Authorization': `${getToken('ADMIN', '1234')}`
+        'Authorization': `${getToken('ADMIN', 'Totvs@123')}`
       }
     })
 

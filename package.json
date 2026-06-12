@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
@@ -22,7 +22,7 @@
     "@po-ui/ng-components": "21.1.0",
     "@po-ui/ng-templates": "21.1.0",
     "@totvs/po-theme": "^21.1.0",
-    "@totvs/protheus-lib-core": "^19.0.1",
+    "@totvs/protheus-lib-core": "^21.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
