@@ -30,10 +30,14 @@ Envia os comandos para o frontend de acordo com o tipo da chamada enviada pelo m
 /*/
 //------------------------------------------------------------------------------
 function jsToAdvpl( oWebChannel as object, cType as character, cContent as character )
+	Local cFormat as character
 	if cType == 'checkBalance'
 		oWebChannel:AdvPLToJS('checkBalance', cValToChar(mostrarSaldo(cContent)))
 	elseIf cType == 'getParam'
 		oWebChannel:AdvPLToJS('setParam', SuperGetMv(cContent))
+	elseIf cType == 'getDateFormat'
+		cFormat := StaticCall(FwUISkin, getDateFormat, cContent)
+		oWebChannel:AdvplToJs("setDateFormat", cFormat )
 	endIf
 return
 

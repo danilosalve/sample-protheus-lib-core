@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
   readonly menus: PoMenuItem[] = [
     { label: 'Página inicial', shortLabel: 'Inicio', link: './', icon: 'an an-house-line' },
     { label: 'Outros exemplos', shortLabel: 'Exemplos', link: 'examples', icon: 'an an-grid-four' },
+    { label: 'Sair', shortLabel: 'Sair', action: () => this.onCloseApp(), icon: 'an an-sign-out' },
   ];
   isLoading = true;
   profile: PoToolbarProfile = {
@@ -49,8 +50,8 @@ export class AppComponent implements OnInit {
     subtitle: '',
   };
   profileActions: PoToolbarAction[] = [
-    { action: this.onOpenUserModal.bind(this), label: 'Visualizar detalhes', icon: 'an an-eye' },
-    { action: this.onCloseApp.bind(this), label: 'Sair', icon: 'an an-menu-close' },
+    { action: this.onOpenUserModal.bind(this), label: 'Visualizar detalhes', icon: 'an an-user-circle' },
+    { action: this.onCloseApp.bind(this), label: 'Sair', icon: 'an an-sign-out' },
   ];
   user: ProUserInfo = {};
 

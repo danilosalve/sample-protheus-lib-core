@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { finalize } from 'rxjs';
@@ -43,6 +44,7 @@ export class ProductsFormComponent implements OnInit {
     b1_cod: '',
   };
 
+  private readonly destroyRef = inject(DestroyRef);
   private readonly fieldsControlService = inject(FieldsControlService);
   private readonly poNotificationService = inject(PoNotificationService);
   private readonly poDialogService = inject(PoDialogService);
@@ -68,7 +70,6 @@ export class ProductsFormComponent implements OnInit {
         if (this.activatedRoute.snapshot.params['id']) {
           this.getValue(this.activatedRoute.snapshot.params['id']);
         }
-        console.log(this.value, this.productForm, this.fields);
       },
       error: () => this.poNotificationService.error('Falha ao retornar campos para formulário.'),
     });
@@ -99,10 +100,13 @@ export class ProductsFormComponent implements OnInit {
       this.isLoading = true;
       this.productsService
         .getById(productId)
-        .pipe(finalize(() => (this.isLoading = false)))
+        .pipe(
+          finalize(() => (this.isLoading = false)),
+          takeUntilDestroyed(this.destroyRef)
+        )
         .subscribe({
           next: (product: Products) => (this.value = product),
-          error: () => this.poNotificationService.error('Falha ao consultar Produto'),
+          error: () => this.poNotificationService.error('Não foi possível consultar o produto'),
         });
     }
   }

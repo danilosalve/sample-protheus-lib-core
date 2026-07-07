@@ -1,4 +1,4 @@
-import { Component, viewChild, inject } from '@angular/core';
+import { Component, viewChild, inject, DestroyRef } from '@angular/core';
 import {
   PoDialogService,
   PoLoadingModule,
@@ -18,6 +18,7 @@ import { ProJsToAdvplService } from '@totvs/protheus-lib-core';
 import { ProductsService } from './shared/services/products.service';
 import { PRODUCTS_URL } from './helpers/products-default-url.constants';
 import { finalize } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-products',
@@ -29,7 +30,7 @@ export class ProductsComponent {
   readonly actions: PoPageDynamicTableActions = { new: 'new', edit: 'product/:id', remove: true };
   readonly apiUrl = PRODUCTS_URL;
   balance = 0;
-  balanceModal = viewChild.required(PoModalComponent);
+  readonly balanceModal = viewChild.required(PoModalComponent);
   readonly fields: PoPageDynamicTableFilters[] = [
     { property: 'b1_filial', label: 'Filial' },
     { property: 'b1_cod', key: true, label: 'Código' },
@@ -46,6 +47,7 @@ export class ProductsComponent {
     },
   ];
 
+  private readonly destroyRef = inject(DestroyRef);
   private readonly productsService = inject(ProductsService);
   private readonly poNotificationService = inject(PoNotificationService);
   private readonly poDialogService = inject(PoDialogService);
@@ -73,7 +75,7 @@ export class ProductsComponent {
     this.isLoadingBalance = true;
     this.productsService
       .checkBalance(productId)
-      .pipe(finalize(() => (this.isLoadingBalance = false)))
+      .pipe(finalize(() => (this.isLoadingBalance = false)), takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (balance: number) => (this.balance = balance),
         error: () => this.poNotificationService.error('Falha ao consultar saldo do produto'),
