@@ -1,5 +1,6 @@
 {
-    "name": "Exemplo de aplicativo com ProtheusLibCore",
-    "productLine": "Protheus",
-    "api_baseUrl": "/"
+  "name": "SampleProtheusLibCore",
+  "description": "Exemplo de aplicativo utilizando ProtheusLibCore",
+  "productLine": "Protheus",
+  "api_baseUrl": "/"
 }

@@ -23,10 +23,13 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "./node_modules/@po-ui/style/css/po-theme-default.min.css",
+              "./node_modules/@po-ui/style/css/po-theme-default-variables.min.css",
+              "./node_modules/@po-ui/style/css/po-theme-core.min.css",
               "./node_modules/@totvs/po-theme/css/po-theme-default-variables.min.css",
               "./node_modules/@totvs/po-theme/css/po-theme-default.min.css",
-              "./node_modules/@po-ui/style/css/po-theme-core.min.css",
+              "./node_modules/@progress/kendo-theme-default/dist/all.css",
+              "./node_modules/@totvs/thf-components/styles/index.css",
+              "./node_modules/@totvs/themes/styles/theme-config.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -36,8 +39,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2MB",
-                  "maximumError": "3MB"
+                  "maximumWarning": "10MB",
+                  "maximumError": "10MB"
                 },
                 {
                   "type": "anyComponentStyle",
