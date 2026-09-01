@@ -1,0 +1,36 @@
+<po-page-default p-title="ProUserProfile" p-subtitle="Gerenciamento do perfil do usuário" [p-breadcrumb]="breadCrumb">
+  <po-container>
+    <div class="po-row">
+      <po-input
+        class="po-xl-12 po-lg-12 po-md-12 po-sm-12"
+        p-label="Conteudo"
+        p-placeholder="Valor a ser gravado no perfil do usuário"
+        [(ngModel)]="cValue"
+        p-clean
+        [p-no-autocomplete]="true"
+      />
+    </div>
+
+    <po-divider />
+
+    <div class="po-row">
+      <po-button-group class="po-md-12" [p-buttons]="buttons" p-toggle="single"/>
+    </div>
+  </po-container>
+  @if (lastMethod) {
+    <po-container p-title="Resposta do ERP">
+      <po-info p-label="Ultimo Metodo utilizado" [p-value]="lastMethod" />
+      <po-divider p-label="Resposta" />
+
+      @if (lastResponse) {
+        <pre>{{ lastResponse | json }}</pre>
+      } @else {
+        <p>Não há</p>
+      }
+    </po-container>
+  }
+
+  @if (isLoading) {
+    <po-loading-overlay />
+  }
+</po-page-default>

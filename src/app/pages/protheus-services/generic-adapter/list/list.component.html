@@ -1,0 +1,25 @@
+<po-page-default
+  p-title="ProGenericAdapter:List"
+  p-subtitle="Método para devolver uma listagem de registro baseado na api genericList"
+  [p-breadcrumb]="breadCrumb"
+>
+  <form>
+    <po-select
+      p-label="Tabela"
+      [p-options]="options"
+      name="table"
+      p-placeholder="Selecione a tabela"
+      (p-change)="onChangeTable($event)"
+    />
+  </form>
+
+  <po-table
+    [p-items]="items"
+    [p-loading]="isLoading"
+    [p-draggable]="true"
+    [p-columns]="columns"
+    p-container="shadow"
+    [p-striped]="true"
+    [p-hide-table-search]="false"
+  />
+</po-page-default>

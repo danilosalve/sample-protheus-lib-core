@@ -1,0 +1,40 @@
+<po-container class="po-md-12" p-title="AliasHasAccess">
+  <form (ngSubmit)="onSubmit()">
+    <div class="po-row">
+      <po-input
+        class="po-md-6"
+        p-label="Alias"
+        p-placeholder="Digite o alias..."
+        [p-required]="true"
+        [(ngModel)]="alias"
+        name="alias"
+        [p-maxlength]="3"
+        [p-pattern]="alphaNumericPattern()"
+        p-error-pattern="Permitido apenas até 3 letras ou números (sem espaços)."
+        [p-no-autocomplete]="true"
+        p-clean
+      />
+
+      <po-number
+        class="po-md-6"
+        p-label="Ação (Action)"
+        p-placeholder="Ex: 1"
+        [p-required]="true"
+        [p-min]="1"
+        p-error-pattern="O valor deve ser um número maior que zero."
+        [(ngModel)]="action"
+        name="action"
+      />
+    </div>
+
+    <div class="po-row po-mt-2">
+      <po-button
+        class="po-md-3"
+        p-label="Verificar acesso"
+        p-kind="primary"
+        [p-disabled]="disableSubmit()"
+        (p-click)="onSubmit()"
+      />
+    </div>
+  </form>
+</po-container>

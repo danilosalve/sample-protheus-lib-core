@@ -1,0 +1,26 @@
+<po-page-default p-title="Outras funções" p-subtitle="@totvs/protheus-lib-core" [p-breadcrumb]="breadCrumb">
+  @if (isLoading) {
+    <po-loading-overlay />
+  }
+
+  <po-container>
+    <div class="po-row">
+      <po-button-group class="po-md-12" [p-buttons]="buttons" p-toggle="single" p-toggle="single" />
+    </div>
+  </po-container>
+
+  @if (lastMethod) {
+    <div class="po-row">
+      <po-container class="po-xl-12 po-lg-12 po-md-12 po-sm-12" p-title="Resposta do ERP">
+        <po-info p-label="Ultimo Metodo utilizado" [p-value]="lastMethod" />
+        <po-divider p-label="Resposta" />
+
+        @if (data) {
+          <pre>{{ data | json }}</pre>
+        } @else {
+          <p>Não há</p>
+        }
+      </po-container>
+    </div>
+  }
+</po-page-default>

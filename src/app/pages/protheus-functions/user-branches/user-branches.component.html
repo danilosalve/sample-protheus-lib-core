@@ -1,0 +1,47 @@
+<po-page-default p-title="ProBranchService" p-subtitle="Retorna as filiais do usuário" [p-breadcrumb]="breadCrumb">
+  @if (isLoading()) {
+    <po-loading-overlay />
+  }
+
+  @if (branches().items?.length) {
+    <po-container p-title="Campos">
+      <div class="po-row">
+        <po-combo
+          class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
+          p-label="Filial (PO Combo)"
+          [p-options]="branchesOptions()"
+        />
+
+        <po-select
+          class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
+          p-label="Filial (PO Select)"
+          [p-options]="branchesOptions()"
+        />
+
+        <po-multiselect
+          class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
+          p-label="Filial (PO Multiselect)"
+          [p-options]="branchesOptions()"
+        />
+      </div>
+    </po-container>
+
+    <po-container p-title="Tabela">
+      @let items = branches().items ?? [];
+
+      <po-table
+        [p-items]="items"
+        [p-show-more-disabled]="!branches().hasNext"
+        [p-hide-table-search]="false"
+        (p-show-more)="loadMore()"
+        [p-height]="350"
+        p-container="shadow"
+        [p-striped]="true"
+      />
+    </po-container>
+  } @else {
+    <po-container>
+      <p>Não há dados</p>
+    </po-container>
+  }
+</po-page-default>

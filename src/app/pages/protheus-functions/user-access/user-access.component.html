@@ -1,0 +1,31 @@
+<po-page-default
+  p-title="Validar acesso do usuário"
+  p-subtitle="Verificar se usuário possuí acesso a uma tabela ou rotina"
+  [p-breadcrumb]="breadCrumb"
+>
+  @if (isGlobalLoading()) {
+    <po-loading-overlay [p-screen-lock]="true" />
+  }
+
+  <!-- Formulário 1: Alias -->
+  <app-alias-form
+    [alias]="aliasStore.model().alias"
+    (aliasChange)="aliasStore.updateAlias($event)"
+    [action]="aliasStore.model().action"
+    (actionChange)="aliasStore.updateAction($event)"
+    [alphaNumericPattern]="aliasStore.alphaNumericPattern"
+    [disableSubmit]="!isAliasFormValid()"
+    (submitForm)="aliasStore.submitForm()"
+  />
+
+  <!-- Formulário 2: User Access (Routine) -->
+  <app-user-access-form
+    [routine]="routineStore.model().routine"
+    (routineChange)="routineStore.updateRoutine($event)"
+    [action]="routineStore.model().action"
+    (actionChange)="routineStore.updateAction($event)"
+    [alphaNumericPattern]="routineStore.alphaNumericPattern"
+    [disableSubmit]="!isRoutineFormValid()"
+    (submitForm)="routineStore.submitForm()"
+  />
+</po-page-default>

@@ -1,0 +1,87 @@
+<po-page-default p-title="ProJsToAdvplService" p-subtitle="Integração com ERP em ADVPL" [p-breadcrumb]="breadCrumb">
+  @if (isLoading) {
+    <po-loading-overlay />
+  }
+
+  <div class="po-row">
+    <po-toaster
+      class="po-mb-4 po-md-12"
+      p-message="Funcionamento"
+      p-support-message="Esse recurso funciona apenas quando a aplicação é executada pelo Protheus."
+    />
+
+    <po-container class="po-xl-12 po-lg-12 po-md-12 po-sm-12" p-title="JsToAdvpl">
+      <p class="po-font-text">Envia uma interação do aplicativo para o Protheus</p>
+
+      <form>
+        <div class="po-row">
+          <po-input
+            class="po-md-6"
+            p-label="Mensagem"
+            p-placeholder="Digite uma mensagem para enviar para o Protheus..."
+            [p-required]="true"
+            [ngModel]="messageForm.message().value()"
+            (ngModelChange)="updateMessage($event)"
+            name="message"
+            [p-minlength]="1"
+            [p-no-autocomplete]="true"
+            p-clean
+          />
+        </div>
+
+        <div class="po-row po-mt-2">
+          <po-button
+            class="po-md-3"
+            p-label="Enviar"
+            p-kind="primary"
+            [p-loading]="isLoading"
+            (p-click)="jsToAdvpl()"
+            [p-disabled]="messageForm().invalid()"
+          />
+        </div>
+      </form>
+    </po-container>
+    <po-container class="po-mt-4 po-xl-12 po-lg-12 po-md-12 po-sm-12" p-title="AdvplToJs">
+      <p class="po-font-text">Recebe uma informação do Protheus</p>
+      <div class="po-row po-mt-2">
+        <po-button
+          class="po-md-3"
+          p-label="Receber mensagem"
+          p-kind="primary"
+          [p-loading]="isLoading"
+          (p-click)="advplToJs()"
+        />
+      </div>
+    </po-container>
+    <po-container class="po-mt-4 po-xl-12 po-lg-12 po-md-12 po-sm-12" p-title="JsToAdvpl com Observable">
+      <p class="po-font-text">Envia uma interação do aplicativo para o Protheus e aguarda uma resposta do Protheus</p>
+
+      <form>
+        <div class="po-row">
+          <po-combo
+            class="po-md-6"
+            p-filter-service="/api/sample/v1/products"
+            p-label="Produto"
+            name="productId"
+            [ngModel]="productForm.productId().value()"
+            (ngModelChange)="updateProductId($event)"
+            [p-infinite-scroll]="true"
+            p-field-label="b1_desc"
+            p-field-value="b1_cod"
+          />
+        </div>
+
+        <div class="po-row po-mt-2">
+          <po-button
+            class="po-md-3"
+            p-label="Consultar saldo do Produto"
+            p-kind="primary"
+            [p-loading]="isLoading"
+            (p-click)="buildObservable()"
+            [p-disabled]="productForm().invalid()"
+          />
+        </div>
+      </form>
+    </po-container>
+  </div>
+</po-page-default>

@@ -1,0 +1,45 @@
+<po-page-default p-title="ProCompanyService" p-subtitle="Retorna as empresas do usuário" [p-breadcrumb]="breadCrumb">
+  @if (isLoading()) {
+    <po-loading-overlay />
+  }
+
+  @if (companies().items.length) {
+    <po-container p-title="Campos">
+      <div class="po-row">
+        <po-combo
+          class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
+          p-label="Empresa (PO Combo)"
+          [p-options]="companiesOptions()"
+        />
+
+        <po-select
+          class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
+          p-label="Empresa (PO Select)"
+          [p-options]="companiesOptions()"
+        />
+
+        <po-multiselect
+          class="po-xl-6 po-lg-6 po-md-6 po-sm-12"
+          p-label="Empresa (PO Multiselect)"
+          [p-options]="companiesOptions()"
+        />
+      </div>
+    </po-container>
+
+    <po-container p-title="Tabela">
+      <po-table
+        [p-items]="companies().items"
+        [p-show-more-disabled]="!companies().hasNext"
+        [p-hide-table-search]="false"
+        (p-show-more)="loadMore()"
+        [p-height]="350"
+        p-container="shadow"
+        [p-striped]="true"
+      />
+    </po-container>
+  } @else {
+    <po-container>
+      <p>Não há dados</p>
+    </po-container>
+  }
+</po-page-default>

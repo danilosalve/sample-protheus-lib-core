@@ -1,0 +1,42 @@
+<po-container class="po-md-12 po-mt-4" p-title="UserHasAccess">
+  <form (ngSubmit)="onSubmit()">
+    <div class="po-row">
+      <po-input
+        class="po-md-6"
+        p-label="Rotina (Routine)"
+        p-placeholder="Ex: MATA030"
+        [p-required]="true"
+        [p-pattern]="alphaNumericPattern()"
+        p-error-pattern="Não é permitido utilizar espaços ou caracteres especiais."
+        [ngModel]="routine()"
+        (ngModelChange)="routine.set($event)"
+        name="routine"
+        [p-no-autocomplete]="true"
+        p-clean
+      />
+
+      <po-number
+        class="po-md-6"
+        p-label="Ação (Action)"
+        p-placeholder="Ex: 1"
+        [p-required]="true"
+        [p-min]="1"
+        p-error-pattern="O valor deve ser um número maior que zero."
+        [ngModel]="action()"
+        (ngModelChange)="action.set($event)"
+        name="action"
+      />
+    </div>
+
+    <div class="po-row po-mt-2">
+      <po-button
+        class="po-md-3"
+        p-label="Verificar acesso"
+        p-kind="primary"
+        (p-click)="onSubmit()"
+        [p-disabled]="disableSubmit()"
+      >
+      </po-button>
+    </div>
+  </form>
+</po-container>

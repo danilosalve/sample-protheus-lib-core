@@ -38,6 +38,14 @@ function jsToAdvpl( oWebChannel as object, cType as character, cContent as chara
 	elseIf cType == 'getDateFormat'
 		cFormat := StaticCall(FwUISkin, getDateFormat, cContent)
 		oWebChannel:AdvplToJs("setDateFormat", cFormat )
+	elseIf cType == 'SendMessage'
+		If Empty(cContent)
+			Alert(i18n('Mensagem vazia'))
+		Else
+			MsgInfo(i18n(cContent), i18n("Mensagem recebida do Aplicativo"))
+		EndIF
+	elseIf cType == 'ReceiveMessage'
+		oWebChannel:AdvplToJs("mensagemProtheus", "Enviando uma mensagem para o aplicativo" )
 	endIf
 return
 
@@ -53,11 +61,9 @@ Realiza a chamada do cálculo de saldo para determinado produto.
 /*/
 //------------------------------------------------------------------------------
 function mostrarSaldo(cProduto as character) as numeric
-	local aArea := FwGetArea()
-	local aAreaSB2 := SB2->(FwGetArea())
-	local nSaldo as numeric
-
-	nSaldo := 0
+	local aArea := FwGetArea() as array
+	local aAreaSB2 := SB2->(FwGetArea()) as array
+	local nSaldo := 0 as numeric	
 
 	SB2->(dbSetOrder(1))
 	if SB2->(dbSeek(xFilial("SB2") + cProduto))

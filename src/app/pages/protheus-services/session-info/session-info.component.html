@@ -1,0 +1,37 @@
+<po-page-default
+  p-title="ProSessionInfo"
+  p-subtitle="Disponibiliza as informações de sessão dos aplicativos (empresa, filial, database etc)"
+  [p-breadcrumb]="breadCrumb"
+>
+  <po-container>
+    <div class="po-row">
+      <po-toaster
+        class="po-md-12"
+        p-message="Carregamento das informações"
+        p-support-message="As informações são atribuídas ao chamar o método proAppConfigService.loadAppConfig() na abertura/inicialização do aplicativo."
+        [p-type]="toasterType"
+      />
+
+      <form>
+        <po-select
+          class="po-xl-12 po-lg-12 po-md-12 po-sm-12"
+          p-label="Selecione o Método"
+          [p-options]="methodOptions"
+          p-placeholder="Selecione um metodo"
+          (p-change)="onMethodChange($event)"
+        />
+      </form>
+    </div>
+
+    <div class="po-row po-mt-3">
+      <po-widget class="po-md-12" p-title="Resultado (Response)">
+        @if (response !== null) {
+          <p>Metodo: {{ lastMethod }}</p>
+          <pre><code>{{ response | json }}</code></pre>
+        } @else {
+          <p>Não há dados</p>
+        }
+      </po-widget>
+    </div>
+  </po-container>
+</po-page-default>
