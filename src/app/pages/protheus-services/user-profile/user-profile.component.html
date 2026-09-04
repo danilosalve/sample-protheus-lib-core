@@ -3,7 +3,7 @@
     <div class="po-row">
       <po-input
         class="po-xl-12 po-lg-12 po-md-12 po-sm-12"
-        p-label="Conteudo"
+        p-label="Conteúdo"
         p-placeholder="Valor a ser gravado no perfil do usuário"
         [(ngModel)]="cValue"
         p-clean
@@ -19,7 +19,7 @@
   </po-container>
   @if (lastMethod) {
     <po-container p-title="Resposta do ERP">
-      <po-info p-label="Ultimo Metodo utilizado" [p-value]="lastMethod" />
+      <po-info p-label="Último método utilizado" [p-value]="lastMethod" />
       <po-divider p-label="Resposta" />
 
       @if (lastResponse) {

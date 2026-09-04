@@ -5,14 +5,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   PoBreadcrumb,
   PoBreadcrumbModule,
-  PoButtonGroupItem,
-  PoButtonGroupModule,
+  PoButtonModule,
   PoContainerModule,
   PoDividerModule,
   PoInfoModule,
   PoLoadingModule,
   PoNotificationService,
-  PoPageModule
+  PoPageModule,
+  PoTooltipModule
 } from '@po-ui/ng-components';
 import {
   ProAdapterBaseV2Service,
@@ -31,8 +31,10 @@ import { take } from 'rxjs';
     PoBreadcrumbModule,
     PoDividerModule,
     PoInfoModule,
-    PoButtonGroupModule,
-    JsonPipe
+    PoButtonModule,
+    JsonPipe,
+    PoTooltipModule,
+    PoTooltipModule
   ],
   templateUrl: './protheus-functions.component.html'
 })
@@ -40,32 +42,6 @@ export class ProtheusFunctionsComponent {
   protected readonly breadCrumb: PoBreadcrumb = {
     items: [{ label: 'Página Inicial', link: '/' }, { label: 'Funções' }]
   };
-  protected readonly buttons: PoButtonGroupItem[] = [
-    {
-      label: 'callAppClose',
-      action: this.callAppClose.bind(this),
-      tooltip: 'Função que fecha a aplicação web',
-      icon: 'an an-sign-out'
-    },
-    {
-      label: 'GetHttpParams',
-      action: this.getHttpParams.bind(this),
-      tooltip: 'Função que retorna query params (aceitos pela FwAdapterBaseV2) no formato HttpParams.',
-      icon: 'an an-code-simple'
-    },
-    {
-      label: 'GetUserThreadInfo',
-      action: this.getUserThreadInfo.bind(this),
-      tooltip: 'Retorna id, username, nome e emails do usuário logado',
-      icon: 'an an-info'
-    },
-    {
-      label: 'PswRet',
-      action: this.pswRet.bind(this),
-      tooltip: 'Retorna informações adicionais do usuário logado',
-      icon: 'an an-user'
-    }
-  ];
   protected data: unknown;
   protected isLoading = false;
   protected lastMethod = '';
@@ -78,12 +54,21 @@ export class ProtheusFunctionsComponent {
   private readonly poNotification = inject(PoNotificationService);
 
   /**
+   * Verificar se está sendo executado dentro do Protheus
+   */
+  protected isInsideProtheus(): void {
+    this.beforeServiceExecution('isInsideProtheus');
+    this.data = this.proAppConfigService.insideProtheus() ? 'verdadeiro' : 'falso';
+    this.isLoading = false;
+  }
+
+  /**
    * Função que fecha a aplicação web
-  */
- private callAppClose(): void {
-   this.beforeServiceExecution('callAppClose');
-   if (this.checkIfInsideProtheus()) {
-     this.proAppConfigService.callAppClose(true);
+   */
+  protected callAppClose(): void {
+    this.beforeServiceExecution('callAppClose');
+    if (this.checkIfInsideProtheus()) {
+      this.proAppConfigService.callAppClose(true);
     }
     this.isLoading = false;
   }
@@ -91,7 +76,7 @@ export class ProtheusFunctionsComponent {
   /**
    * Função que retorna query params (aceitos pela FwAdapterBaseV2) no formato HttpParams.
    */
-  private getHttpParams(): void {
+  protected getHttpParams(): void {
     this.beforeServiceExecution('getHttpParams');
     this.data = this.proAdapterBaseV2.getHttpParams(1, 10, "contains(name, 'TOTVS')", 'id,name', '-id');
     this.isLoading = false;
@@ -100,7 +85,7 @@ export class ProtheusFunctionsComponent {
   /**
    * Retorna id, username, nome e emails do usuário logado
    */
-  private getUserThreadInfo(): void {
+  protected getUserThreadInfo(): void {
     this.beforeServiceExecution('getUserThreadInfo');
 
     if (this.checkIfInsideProtheus()) {
@@ -123,7 +108,7 @@ export class ProtheusFunctionsComponent {
   /**
    * Retorna informações adicionais do usuário logado
    */
-  private pswRet(): void {
+  protected pswRet(): void {
     this.beforeServiceExecution('pswRet');
 
     this.proUserInfo

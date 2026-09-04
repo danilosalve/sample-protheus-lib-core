@@ -3,16 +3,65 @@
     <po-loading-overlay />
   }
 
-  <po-container>
+  <po-container p-title="Ações">
     <div class="po-row">
-      <po-button-group class="po-md-12" [p-buttons]="buttons" p-toggle="single" p-toggle="single" />
+      <po-button
+        class="po-xl-2 po-lg-3 po-md-6 po-sm-12 po-mb-2"
+        p-icon="an an-Server"
+        p-label="isInsideProtheus"
+        p-tooltip="Verificar se está sendo utilizando dentro do Protheus"
+        (p-click)="isInsideProtheus()"
+        p-kind="secondary"
+        [p-loading]="isLoading"
+      />
+
+      <po-button
+        class="po-xl-2 po-lg-3 po-md-6 po-sm-12 po-mb-2"
+        p-icon="an an-code-simple"
+        p-label="GetHttpParams"
+        p-tooltip="Função que retorna query params (aceitos pela FwAdapterBaseV2) no formato HttpParams."
+        (p-click)="getHttpParams()"
+        p-kind="secondary"
+        [p-loading]="isLoading"
+      />
+
+      <po-button
+        class="po-xl-2 po-lg-3 po-md-6 po-sm-12 po-mb-2"
+        p-icon="an an-info"
+        p-label="GetUserThreadInfo"
+        p-tooltip="Retorna id, username, nome e emails do usuário logado"
+        (p-click)="getUserThreadInfo()"
+        p-kind="secondary"
+        [p-loading]="isLoading"
+      />
+
+      <po-button
+        class="po-xl-2 po-lg-3 po-md-6 po-sm-12 po-mb-2"
+        p-icon="an an-user"
+        p-label="pswRet"
+        p-tooltip="Retorna informações adicionais do usuário logado"
+        (p-click)="pswRet()"
+        p-kind="secondary"
+        [p-loading]="isLoading"
+      />
+
+      <po-button
+        class="po-xl-2 po-lg-3 po-md-6 po-sm-12 po-mb-2"
+        p-icon="an an-sign-out"
+        p-label="callAppClose"
+        p-tooltip="Função que fecha a aplicação web"
+        (p-click)="callAppClose()"
+        p-kind="primary"
+        p-danger
+        [p-loading]="isLoading"
+      />
     </div>
   </po-container>
 
   @if (lastMethod) {
     <div class="po-row">
       <po-container class="po-xl-12 po-lg-12 po-md-12 po-sm-12" p-title="Resposta do ERP">
-        <po-info p-label="Ultimo Metodo utilizado" [p-value]="lastMethod" />
+        <po-info p-label="Último método utilizado" [p-value]="lastMethod" />
         <po-divider p-label="Resposta" />
 
         @if (data) {

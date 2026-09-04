@@ -1,9 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { ProAppConfigService } from '@totvs/protheus-lib-core';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = sessionStorage.getItem('ERPTOKEN');
+  const proAppConfig = inject(ProAppConfigService);
 
-  if (!token) {
+  if (!proAppConfig.insideProtheus()) {
     const authReq = req.clone({
       setHeaders: {
         'Authorization': `${getToken('ADMIN', '1234')}`

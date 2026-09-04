@@ -47,7 +47,7 @@ export class AliasStoreService {
     this.isLoading.set(true);
 
     this.proUserAccess
-      .userHasAccess(alias, action ?? undefined)
+      .aliasHasAccess(alias, action ?? undefined)
       .pipe(
         take(1),
         takeUntilDestroyed(this.destroyRef),
