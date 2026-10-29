@@ -1,0 +1,11 @@
+ <po-toolbar p-title="Exemplos @ProtheusLibCore" [p-profile]="profile" [p-profile-actions]="profileActions" />
+
+<po-modal p-title="Detalhes do Usuário">
+  @if (user) {
+    <po-info class="po-xl-6 po-lg-6 po-md-6 po-sm-12" p-label="Código" [p-value]="user.id" />
+    <po-info class="po-xl-6 po-lg-6 po-md-6 po-sm-12" p-label="Nome de usuário" [p-value]="user.userName" />
+    @if (user.emails && user.emails.length > 0) {
+      <po-info class="po-xl-12 po-lg-12 po-md-12 po-sm-12" p-label="Email" [p-value]="user.emails[0].value" />
+    }
+  }
+</po-modal>

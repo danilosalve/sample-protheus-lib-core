@@ -1,132 +1,51 @@
-import { Component, inject, OnInit, viewChild } from '@angular/core';
+import { LiteralsService } from './shared/services/literals.service';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {
-  PoInfoModule,
-  PoMenuItem,
-  PoMenuModule,
-  PoModalComponent,
-  PoModalModule,
-  PoToolbarAction,
-  PoToolbarModule,
-  PoToolbarProfile
-} from '@po-ui/ng-components';
-import {
-  ProAppConfigService,
-  ProtheusLibCoreModule,
-  ProThreadInfoService,
-  ProUserInfo
-} from '@totvs/protheus-lib-core';
+import { ProAppConfigService } from '@totvs/protheus-lib-core';
+import { PoMenuItem, PoMenuModule, PoNotificationService, PoThemeService } from '@po-ui/ng-components';
 
-const USER_NOT_FOUND: ProUserInfo = {
-  id: 'Não encontrado',
-  userName: 'Usuário não encontrado',
-  displayName: 'Usuário não encontrado',
-  emails: []
-};
+import { ToolbarComponent } from './core/components/toolbar/toolbar.component';
+import { APP_MENUS } from './core/helpers/menu.constants';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, PoToolbarModule, PoMenuModule, PoModalModule, PoInfoModule, ProtheusLibCoreModule],
+  imports: [RouterOutlet, PoMenuModule, ToolbarComponent],
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  readonly userModal = viewChild.required(PoModalComponent);
-  protected readonly menus: PoMenuItem[] = [
-    { label: 'Página inicial', shortLabel: 'Inicio', link: './', icon: 'an an-house-line' },
-    {
-      label: 'Integrações ADVPL',
-      shortLabel: 'Integrações',
-      icon: 'an an-swap',
-      link: 'advpl-integration'
-    },
-    {
-      label: 'Funções',
-      shortLabel: 'Funções',
-      icon: 'an an-code',
-      subItems: [
-        {
-          label: 'Acessos do usuário',
-          subItems: [
-            { label: 'Empresas', link: 'protheus-functions/user-companies' },
-            { label: 'Filiais', link: 'protheus-functions/user-branches' },
-            { label: 'Validar de acessos', link: 'protheus-functions/user-access' }
-          ]
-        },
-        { label: 'Outras', link: 'protheus-functions' }
-      ]
-    },
-    {
-      label: 'Serviços',
-      shortLabel: 'Serviços',
-      icon: 'an an-hard-drives',
-      subItems: [
-        { label: 'ProUserProfileService', link: 'protheus-services/user-profile' },
-        {
-          label: 'ProGenericAdapterService',
-          subItems: [
-            { label: 'List', link: 'protheus-services/generic-adapter/list' },
-            { label: 'Query', link: 'protheus-services/generic-adapter/query' }
-          ]
-        },
-        { label: 'ProSessionInfoService', link: 'protheus-services/session-info' },
-        { label: 'ProDateService', link: 'protheus-services/pro-date' }
-      ]
-    },
-    { label: 'Sair', shortLabel: 'Sair', action: () => this.onCloseApp(), icon: 'an an-sign-out' }
-  ];
-  protected isLoading = true;
-  protected profile: PoToolbarProfile = {
-    title: '',
-    subtitle: ''
-  };
-  protected profileActions: PoToolbarAction[] = [
-    { action: this.onOpenUserModal.bind(this), label: 'Visualizar detalhes', icon: 'an an-user-circle' },
-    { action: this.onCloseApp.bind(this), label: 'Sair', icon: 'an an-sign-out' }
-  ];
-  protected user: ProUserInfo = {};
-
+  private readonly literalsService = inject(LiteralsService);
+  private readonly poNotificationService = inject(PoNotificationService);
   private readonly proAppConfigService = inject(ProAppConfigService);
-  private readonly proThreadInfoService = inject(ProThreadInfoService);
+  private readonly themeService = inject(PoThemeService);
+  protected readonly menus: PoMenuItem[] = APP_MENUS.map((item: PoMenuItem) => {
+    if (item.label === 'Sair') {
+      return {
+        ...item,
+        action: () => this.onCloseApp()
+      };
+    }
+
+    return item;
+  });
 
   constructor() {
+    /** Exemplo de utilização dos Literals via serviço */
+    this.literalsService.getLiterals().subscribe({ next: literals => console.log(literals) });
+    /** Carrega os dados do Storage para memoria */
     this.proAppConfigService.loadAppConfig();
   }
 
   ngOnInit(): void {
-    this.getUserInfo();
-  }
-
-  getUserInfo(): void {
-    if (this.proAppConfigService.insideProtheus()) {
-      this.getUserInfoFromProtheus();
-    } else {
-      this.user = USER_NOT_FOUND;
-      this.profile.title = this.user.displayName!;
-      this.profile.subtitle = 'Empresa - Filial';
-      this.isLoading = false;
-    }
-  }
-
-  getUserInfoFromProtheus(): void {
-    this.proThreadInfoService.getUserInfoThread().subscribe({
-      next: (user: ProUserInfo) => {
-        this.user = user;
-        this.profile.title = this.user.displayName!;
-        this.profile.subtitle = `${JSON.parse(sessionStorage['ProBranch']).CompanyCode} - ${JSON.parse(sessionStorage['ProBranch']).Description}`;
-        this.isLoading = false;
-      },
-      error: () => {
-        this.user = USER_NOT_FOUND;
-        this.isLoading = false;
-      }
-    });
-  }
-
-  onOpenUserModal(): void {
-    this.userModal().open();
+    this.themeService.setA11yDefaultSizeSmall(false);
   }
 
   onCloseApp(): void {
-    this.proAppConfigService.callAppClose();
+    if (this.proAppConfigService.insideProtheus()) {
+      this.proAppConfigService.callAppClose();
+    } else {
+      this.poNotificationService.information(
+        'Ops, para utilizar está função é necessario utilizar o aplicativo dentro do Protheus. Para prosseguir, abra o aplicativo pelo Protheus.'
+      );
+    }
   }
 }

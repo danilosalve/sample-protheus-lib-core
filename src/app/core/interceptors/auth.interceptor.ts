@@ -10,7 +10,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       setHeaders: {
         'Authorization': `${getToken('ADMIN', '1234')}`
       }
-    })
+    });
 
     return next(authReq);
   }

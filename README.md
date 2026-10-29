@@ -13,3 +13,16 @@ Repositório com aplicativo web desenvolvido para demonstração do uso da bibli
 - Apps no Protheus: https://medium.com/totvsdevelopers/apps-no-protheus-10db4f47f9fc
 - API para retorno do SX3 (fwformstructview): https://tdn.totvs.com/display/public/framework/BasicProtheusServices
 - API para retorno de consulta padrão (F3): https://tdn.totvs.com/display/public/framework/GenericLookupService
+
+## Gerar o aplicativo para o Protheus
+
+Instale as dependências e execute o build com empacotamento:
+
+```bash
+npm ci
+npm run build:app
+```
+
+O comando executa o build Angular de produção e gera `server/sample-protheus-lib-core.app`. O arquivo `.app` usa o formato ZIP e mantém o diretório `sample-protheus-lib-core/` na raiz do pacote.
+
+Para executar somente uma etapa, use `npm run build` ou `npm run package:app`.
